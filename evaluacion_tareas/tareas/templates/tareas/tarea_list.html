@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Lista de Tareas</h1>
+
+<a href="{% url 'tareas:tarea_create' %}">➕ Crear nueva tarea</a>
+
+<table border="1">
+  <tr>
+    <th>Título</th>
+    <th>Prioridad</th>
+    <th>Vigente</th>
+    <th>Acciones</th>
+  </tr>
+  {% for tarea in object_list %}
+  <tr>
+    <td>
+      <a href="{% url 'tareas:tarea_detail' tarea.pk %}">
+        {{ tarea.titulo }}
+      </a>
+    </td>
+    <td>{{ tarea.prioridad }}</td>
+    <td>{{ tarea.vigente|yesno:"Sí,No" }}</td>
+    <td>
+      <a href="{% url 'tareas:tarea_update' tarea.pk %}">✏️ Editar</a> | 
+      <a href="{% url 'tareas:tarea_delete' tarea.pk %}">🗑️ Eliminar</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="4">No hay tareas registradas.</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% if is_paginated %}
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?page=1">⏮ Primera</a>
+      <a href="?page={{ page_obj.previous_page_number }}">⬅️ Anterior</a>
+    {% endif %}
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Siguiente ➡️</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">Última ⏭</a>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% endblock %}

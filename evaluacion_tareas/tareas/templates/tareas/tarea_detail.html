@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Detalle de la Tarea</h1>
+
+<p><strong>Título:</strong> {{ object.titulo }}</p>
+<p><strong>Descripción:</strong> {{ object.descripcion }}</p>
+<p><strong>Prioridad:</strong> {{ object.prioridad }}</p>
+<p><strong>Vigente:</strong> {{ object.vigente|yesno:"Sí,No" }}</p>
+<p><strong>Fecha de creación:</strong> {{ object.fecha_creacion }}</p>
+<p><strong>Fecha límite:</strong> {{ object.fecha_limite|default:"No definida" }}</p>
+
+<hr>
+<a href="{% url 'tareas:tarea_update' object.pk %}">✏️ Editar</a> | 
+<a href="{% url 'tareas:tarea_delete' object.pk %}">🗑️ Eliminar</a> | 
+<a href="{% url 'tareas:tarea_list' %}">⬅️ Volver a la lista</a>
+{% endblock %}
